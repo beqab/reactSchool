@@ -24,6 +24,18 @@ class Login extends Component {
 
     this.props.loginAction(data);
   };
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  }
+  componentWillReceiveProps(props) {
+    if (props.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  }
+
   render() {
     return (
       <div className="formGroup login">
@@ -39,7 +51,7 @@ class Login extends Component {
               name="code"
               onChange={this.onchange}
             />
-            <img className="code" src="./images/Code.svg" />
+            <img alt="alt" className="code" src="./images/Code.svg" />
             <div className="invalid-feedback">
               Please provide a valid state.
             </div>
@@ -55,7 +67,7 @@ class Login extends Component {
               name="password"
               onChange={this.onchange}
             />
-            <img className="pass" src="./images/Password.svg" />
+            <img alt="alt" className="pass" src="./images/Password.svg" />
             <div className="invalid-feedback">
               Please provide a valid state.
             </div>
@@ -73,12 +85,15 @@ class Login extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = dispatch => ({
   loginAction: data => dispatch(AuthActions.loginUser(data))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

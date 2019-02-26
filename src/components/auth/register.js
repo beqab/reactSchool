@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
+import setAuthToken from "../../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { connect } from "react-redux";
 import { stat } from "fs";
@@ -14,7 +16,7 @@ class Register extends Component {
     phone: "",
     second_name: "",
     password: "",
-    password2: "",
+    password_confirmation: "",
     errors: []
   };
   toggleSelct = type => {
@@ -38,17 +40,24 @@ class Register extends Component {
       second_name: this.state.second_name,
       email: this.state.email,
       phone: this.state.phone,
-      password: this.state.password
+      password: this.state.password,
+      password_confirmation: this.state.password_confirmation
     };
-    alert("alert");
+    // alert("alert");
     axios
       .post("auth/register", data)
       .then(res => {
         this.setState({
           errors: []
         });
-        this.props.featchUser(res.data);
-        this.props.history.push("/");
+        console.log(res.data);
+        localStorage.setItem("jwtToken", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setAuthToken(res.data.token);
+        let decode = jwt_decode(res.data.token);
+        console.log(decode);
+        this.props.featchUser(res.data, res.data.token, decode);
+        // this.props.history.push("/");
       })
       .catch(err => {
         this.setState({
@@ -56,7 +65,16 @@ class Register extends Component {
         });
       });
   };
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.user.isAuthenticated) {
+      this.props.history.push("/");
+    }
+  }
+  componentWillReceiveProps(props) {
+    if (props.user.isAuthenticated) {
+      this.props.history.push("/createclass");
+    }
+  }
   render() {
     return (
       <div className="formGroup register">
@@ -75,7 +93,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.name}
             />
-            <img height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="./images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.name
                 ? this.state.errors.name[0].replace("name", "სახელი")
@@ -95,7 +113,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.second_name}
             />
-            <img height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="./images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.second_name
                 ? this.state.errors.second_name[0].replace(
@@ -118,7 +136,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.phone}
             />
-            <img height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="./images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.phone
                 ? this.state.errors.phone[0].replace("phone", "მობილური")
@@ -139,7 +157,7 @@ class Register extends Component {
                 ? null
                 : "საგანი"}
             </div>
-            <img className="arrow" src="./images/DownArrow.svg" />
+            <img alt="alt" className="arrow" src="./images/DownArrow.svg" />
 
             <div
               className={classnames("selectSubject d-flex flex-column ", {
@@ -174,10 +192,10 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.email}
             />
-            <img className="mail" src="./images/Mail.svg" />
+            <img alt="alt" className="mail" src="./images/Mail.svg" />
             <div className="invalid-feedback">
               {this.state.errors.email
-                ? this.state.errors.email[0].replace("email", "მობილური")
+                ? this.state.errors.email[0].replace("email", "მეილი")
                 : null}
             </div>
           </div>
@@ -194,10 +212,10 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.password}
             />
-            <img className="pass" src="./images/Password.svg" />
+            <img alt="alt" className="pass" src="./images/Password.svg" />
             <div className="invalid-feedback">
               {this.state.errors.password
-                ? this.state.errors.password[0].replace("password", "მობილური")
+                ? this.state.errors.password[0].replace("password", "პაროლი")
                 : null}
             </div>
           </div>
@@ -208,11 +226,11 @@ class Register extends Component {
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               placeholder="გაიმეორეთ პაროლი"
-              name="password2"
+              name="password_confirmation"
               onChange={this.onchange}
-              value={this.state.password2}
+              value={this.state.password_confirmation}
             />
-            <img className="pass" src="./images/Password.svg" />
+            <img alt="alt" className="pass" src="./images/Password.svg" />
             <div className="invalid-feedback" />
           </div>
           <button className="schollBtn text-white w-100">შესვლა</button>

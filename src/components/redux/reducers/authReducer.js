@@ -1,7 +1,8 @@
 import isEmpty from "../../validate/idEmty";
 const initialState = {
   user: {},
-  isAuthenticated: false
+  isAuthenticated: false,
+  decode: {}
 };
 
 export default function(state = initialState, action) {
@@ -11,7 +12,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
-        isAuthenticated: !isEmpty(action.payload)
+        isAuthenticated: !isEmpty(action.payload),
+        decode: action.decode
       };
       break;
       return state;

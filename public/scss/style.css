@@ -100,6 +100,8 @@ ul {
   filter: drop-shadow(1px 2px 6px rgba(0, 0, 0, 0.2)); }
   .header .right_Side img {
     height: 60px; }
+  .header .right_Side .name {
+    cursor: pointer; }
 
 .formGroup {
   width: 100%;
@@ -137,7 +139,7 @@ ul {
 .formPagination {
   max-width: 512px;
   margin: auto;
-  margin-top: 7vw; }
+  margin-top: 170px; }
   .formPagination ul {
     height: 2px;
     background: #8894a5;

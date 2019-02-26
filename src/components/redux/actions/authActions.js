@@ -1,5 +1,6 @@
 import axios from "axios";
 import setAuthToken from "../../../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
 
 // export const resaveUserData = data => {
 //   return {
@@ -17,8 +18,11 @@ export const loginUser = userdata => dispatch => {
       console.log(res.data);
       let token1 = res.data.token;
       localStorage.setItem("jwtToken", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data));
       setAuthToken(res.data.token);
-      dispatch(setCurrentUser(res.data));
+      let decode = jwt_decode(res.data.token);
+      console.log(decode);
+      dispatch(setCurrentUser(res.data, res.data.token, decode));
     })
     .catch(err => console.log(err));
   //   return {
@@ -27,12 +31,22 @@ export const loginUser = userdata => dispatch => {
   //   };
 };
 
-export const setCurrentUser = data => {
-  console.log(data);
-  let JwtToken = data.token;
+// set user
+export const setCurrentUser = (data, token, decode) => {
+  // let JwtToken = data.token;
   return {
     type: "SET_CURRENT_USER",
     payload: data,
-    token: JwtToken
+    token: token,
+    decode: decode
   };
+};
+
+// logout user
+
+export const logoutUser = () => dispatch => {
+  localStorage.removeItem("jwtToken");
+  localStorage.removeItem("user");
+  setAuthToken(false);
+  dispatch(setCurrentUser({}, false, null));
 };

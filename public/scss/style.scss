@@ -56,6 +56,9 @@ ul {
     img {
       height: 60px;
     }
+    .name {
+      cursor: pointer;
+    }
   }
 }
 .formGroup {
@@ -97,7 +100,7 @@ ul {
 .formPagination {
   max-width: 512px;
   margin: auto;
-  margin-top: 7vw;
+  margin-top: 170px;
 
   ul {
     height: 2px;

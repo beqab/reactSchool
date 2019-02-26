@@ -8,7 +8,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 
-// axios.defaults.baseURL = "";
+axios.defaults.baseURL = "http://localhost:8000/api/schools/";
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 ReactDOM.render(
