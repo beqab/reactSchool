@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import * as validaror from "../../validate/regiterClass/registerClass";
+import axios from "axios";
 
 export class RegisterClass extends Component {
   state = {
@@ -11,7 +12,12 @@ export class RegisterClass extends Component {
     school_id: "",
     errors: [],
     isValid: true,
-    studentsList: [[{}]]
+    StudentNameCreator: "",
+    StudentPhoneCreator: "",
+    studentCreatorErrors: [],
+    secunsStepVaalidation: "",
+
+    studentsList: []
   };
   nextStep = type => {
     if (type === "next" && this.state.step < 3) {
@@ -33,10 +39,37 @@ export class RegisterClass extends Component {
           });
         }
       }
-      // alert("+");
+      if (this.state.step == 2) {
+        if (this.state.studentsList.length > 0) {
+          // seand request then update state
+          let formData = {
+            name: this.state.name,
+            school_class_id: this.state.school_class_id,
+            subject_id: this.state.subject_id,
+            school_id: this.state.school_id,
+            school_id: this.state.school_id,
+            students: this.state.studentsList
+          };
+          axios
+            .post("classroom/store", formData)
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          this.setState(prevState => ({
+            step: prevState.step + 1,
+            secunsStepVaalidation: ""
+          }));
+        } else {
+          this.setState({
+            secunsStepVaalidation: "დასადასტურებლად დაამატეთ მოსწავლე"
+          });
+        }
+      }
     }
     if (type === "prev" && this.state.step > 1) {
-      // alert("-");
       this.setState(prevState => ({
         step: prevState.step - 1
       }));
@@ -44,9 +77,41 @@ export class RegisterClass extends Component {
   };
 
   onchange = e => {
-    // console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+  addStudent = () => {
+    let createdStudent = {
+      name: this.state.StudentNameCreator,
+      phone: this.state.StudentPhoneCreator
+    };
+    const { errors, isValid } = validaror.studentCreatorValidation(
+      createdStudent
+    );
+    if (isValid) {
+      let students = [createdStudent, ...this.state.studentsList];
+
+      this.setState({
+        studentCreatorErrors: [],
+        StudentNameCreator: "",
+        StudentPhoneCreator: "",
+        studentsList: students,
+        secunsStepVaalidation: ""
+      });
+      // add student in arry
+    } else {
+      this.setState({
+        studentCreatorErrors: errors
+      });
+    }
+  };
+
+  removeStudent = index => {
+    let studentList = [...this.state.studentsList];
+    let newStudentsList = studentList.filter((el, ind) => ind != index);
+    this.setState({
+      studentsList: newStudentsList
     });
   };
   render() {
@@ -54,6 +119,7 @@ export class RegisterClass extends Component {
       <div className="formGroup createClass">
         <form>
           <div className="fotm_title pb-3"> კლასის შექმნა </div>
+
           <div className="form-group">
             <input
               onChange={this.onchange}
@@ -134,38 +200,126 @@ export class RegisterClass extends Component {
       <div className="formGroup createClassSecundStep ">
         <form>
           <div className="fotm_title pb-3"> კლასის შექმნა </div>
+          {this.state.secunsStepVaalidation ? (
+            <div className="errorInTwo">
+              {" "}
+              {this.state.secunsStepVaalidation}
+            </div>
+          ) : null}
           <div className="container addStudentContainer">
-            <img className="addStudentBrn" src="./images/AddStudent.svg" />
+            <img
+              className="addStudentBrn"
+              onClick={this.addStudent}
+              src="./images/AddStudent.svg"
+            />
             <div className="row addStudent">
               <div className="col-sm-6">
                 <div className="form-group">
                   <input
+                    onChange={this.onchange}
                     type="text"
-                    className="form-control "
+                    className={classnames("form-control ", {
+                      "is-invalid": this.state.studentCreatorErrors.name
+                    })}
                     aria-describedby="emailHelp"
                     placeholder="სახელი გვარი"
+                    name="StudentNameCreator"
+                    value={this.state.StudentNameCreator}
                   />
                   <img className="" src="./images/NameStudent.svg" />
                   <div className="invalid-feedback">
-                    Please provide a valid state.
+                    {this.state.studentCreatorErrors.name}
                   </div>
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <input
+                    onChange={this.onchange}
                     type="text"
-                    className="form-control "
+                    className={classnames("form-control ", {
+                      "is-invalid": this.state.studentCreatorErrors.phone
+                    })}
                     aria-describedby="emailHelp"
                     placeholder="ტელეფონი"
+                    name="StudentPhoneCreator"
+                    value={this.state.StudentPhoneCreator}
                   />
                   <img className="code" src="./images/Code.svg" />
                   <div className="invalid-feedback">
-                    Please provide a valid state.
+                    {this.state.studentCreatorErrors.phone}
                   </div>
                 </div>
               </div>
             </div>
+            {this.state.studentsList.map((student, index) => (
+              <div key={index} className="row addStudent">
+                <i
+                  onClick={() => this.removeStudent(index)}
+                  class="deleteStudentFromList fas fa-trash"
+                />
+                <div className="col-sm-6">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="form-control "
+                      aria-describedby="emailHelp"
+                      placeholder="სახელი გვარი"
+                      value={student.name}
+                    />
+                    <img className="" src="./images/NameStudent.svg" />
+                    <div className="invalid-feedback">
+                      Please provide a valid state.
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-6">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="form-control "
+                      aria-describedby="emailHelp"
+                      placeholder="ტელეფონი"
+                      value={student.phone}
+                    />
+                    <img className="code" src="./images/Code.svg" />
+                    <div className="invalid-feedback">
+                      Please provide a valid state.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {/* <div className="row addStudent">
+            <div className="col-sm-6">
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control "
+                  aria-describedby="emailHelp"
+                  placeholder="სახელი გვარი"
+                />
+                <img className="" src="./images/NameStudent.svg" />
+                <div className="invalid-feedback">
+                  Please provide a valid state.
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control "
+                  aria-describedby="emailHelp"
+                  placeholder="ტელეფონი"
+                />
+                <img className="code" src="./images/Code.svg" />
+                <div className="invalid-feedback">
+                  Please provide a valid state.
+                </div>
+              </div>
+            </div>
+          </div> */}
           </div>
         </form>
       </div>
@@ -210,11 +364,11 @@ export class RegisterClass extends Component {
           </ul>
         </div>
         {this.state.step == 1
-          ? stepTwo
+          ? stepOne
           : this.state.step == 2
           ? stepTwo
           : this.state.step == 3
-          ? stepTwo
+          ? stepThree
           : null}
 
         <div className="formControlers justify-content-between  d-flex w-75 mx-auto ">

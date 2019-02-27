@@ -21,3 +21,21 @@ export const stepOneValidation = data => {
     isValid: isEmpty(errors)
   };
 };
+
+export const studentCreatorValidation = data => {
+  let errors = {};
+  if (!validator.isLength(data.name, { min: 2, max: 30 })) {
+    errors.name = " მინიმუმ 2 სიმბოლო";
+  }
+  if (!validator.isNumeric(data.phone)) {
+    errors.phone = "შეიყვანეთ მხოლოდ ციფრები";
+  }
+  if (!validator.isLength(data.phone, { min: 9, max: 9 })) {
+    errors.phone = " შეიყვანეთ 9 ციფრი ";
+  }
+
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+};

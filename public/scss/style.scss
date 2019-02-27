@@ -394,3 +394,26 @@ ul {
   top: 7px;
   cursor: pointer;
 }
+.addStudent {
+  position: relative;
+  &:hover {
+    .deleteStudentFromList {
+      display: block;
+    }
+  }
+
+  .deleteStudentFromList {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 15px;
+    cursor: pointer;
+    display: none;
+  }
+}
+.errorInTwo {
+  text-align: center;
+  margin-bottom: 20px;
+  color: red;
+  font-size: 14px;
+}
