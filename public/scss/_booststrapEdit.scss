@@ -25,6 +25,9 @@
     // background: #ced4da;
     height: 40px;
     display: inline-block;
+    &:first-child {
+      display: none;
+    }
   }
 }
 .form-control ~ img {

@@ -29,6 +29,13 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     store.dispatch(authActions.logoutUser());
   }
+  // console.log(
+  //   decoded.exp,
+  //   "exp",
+  //   currentTime,
+  //   "curent",
+  //   decoded.exp - currentTime
+  // );
 }
 
 class App extends Component {
