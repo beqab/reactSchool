@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import * as validaror from "../../validate/regiterClass/registerClass";
 import axios from "axios";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)"
+  }
+};
 
 export class RegisterClass extends Component {
   state = {
@@ -17,7 +29,22 @@ export class RegisterClass extends Component {
     studentCreatorErrors: [],
     secunsStepVaalidation: "",
 
-    studentsList: []
+    studentsList: [],
+
+    modalIsOpen: false
+  };
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  afterOpenModal = () => {
+    // references are now sync'd and can be accessed.
+    // this.subtitle.style.color = "#f00";
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
   };
   nextStep = type => {
     if (type === "next" && this.state.step < 3) {
@@ -54,14 +81,14 @@ export class RegisterClass extends Component {
             .post("classroom/store", formData)
             .then(res => {
               console.log(res);
+              this.setState(prevState => ({
+                step: prevState.step + 1,
+                secunsStepVaalidation: ""
+              }));
             })
             .catch(err => {
               console.log(err);
             });
-          this.setState(prevState => ({
-            step: prevState.step + 1,
-            secunsStepVaalidation: ""
-          }));
         } else {
           this.setState({
             secunsStepVaalidation: "დასადასტურებლად დაამატეთ მოსწავლე"
@@ -333,7 +360,10 @@ export class RegisterClass extends Component {
         </form>
         <div className="formControlers justify-content-between  d-flex  mx-auto ">
           <div>
-            <button className="schollBtn prev bg-white mainColor fontCaps">
+            <button
+              onClick={this.openModal}
+              className="schollBtn prev bg-white mainColor fontCaps"
+            >
               ნახვა
             </button>
           </div>
@@ -345,6 +375,29 @@ export class RegisterClass extends Component {
     );
     return (
       <>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div>
+            <h2> კლასის სახელი : {this.state.name}</h2>
+            {/* <h2 ref={subtitle => (this.subtitle = subtitle)}>Hello</h2> */}
+            <button onClick={this.closeModal}>close</button>
+            <ul>
+              {this.state.studentsList.map(el => {
+                return (
+                  <li>
+                    სახელი: {el.name} მობილური: {el.phone}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </Modal>
+
         <div className="formPagination">
           <ul
             className={classnames("firstStep", {

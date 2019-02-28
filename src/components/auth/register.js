@@ -93,7 +93,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.name}
             />
-            <img alt="alt" height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="/images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.name
                 ? this.state.errors.name[0].replace("name", "სახელი")
@@ -113,7 +113,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.second_name}
             />
-            <img alt="alt" height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="/images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.second_name
                 ? this.state.errors.second_name[0].replace(
@@ -136,7 +136,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.phone}
             />
-            <img alt="alt" height="50px" src="./images/Name.svg" />
+            <img alt="alt" height="50px" src="/images/Name.svg" />
             <div className="invalid-feedback">
               {this.state.errors.phone
                 ? this.state.errors.phone[0].replace("phone", "მობილური")
@@ -157,7 +157,7 @@ class Register extends Component {
                 ? null
                 : "საგანი"}
             </div>
-            <img alt="alt" className="arrow" src="./images/DownArrow.svg" />
+            <img alt="alt" className="arrow" src="/images/DownArrow.svg" />
 
             <div
               className={classnames("selectSubject d-flex flex-column ", {
@@ -192,7 +192,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.email}
             />
-            <img alt="alt" className="mail" src="./images/Mail.svg" />
+            <img alt="alt" className="mail" src="/images/Mail.svg" />
             <div className="invalid-feedback">
               {this.state.errors.email
                 ? this.state.errors.email[0].replace("email", "მეილი")
@@ -212,7 +212,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.password}
             />
-            <img alt="alt" className="pass" src="./images/Password.svg" />
+            <img alt="alt" className="pass" src="/images/Password.svg" />
             <div className="invalid-feedback">
               {this.state.errors.password
                 ? this.state.errors.password[0].replace("password", "პაროლი")
@@ -230,7 +230,7 @@ class Register extends Component {
               onChange={this.onchange}
               value={this.state.password_confirmation}
             />
-            <img alt="alt" className="pass" src="./images/Password.svg" />
+            <img alt="alt" className="pass" src="/images/Password.svg" />
             <div className="invalid-feedback" />
           </div>
           <button className="schollBtn text-white w-100">შესვლა</button>

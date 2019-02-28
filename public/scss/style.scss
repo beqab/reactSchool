@@ -266,6 +266,25 @@ ul {
   width: 100%;
 }
 
+.asideFileter::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.asideFileter::-webkit-scrollbar-track {
+  background: #828ea0;
+}
+
+/* Handle */
+.asideFileter::-webkit-scrollbar-thumb {
+  background: #404e66;
+}
+
+/* Handle on hover */
+.asideFileter::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .asideFileter {
   max-width: 320px;
   height: calc(100vh - 70px);
@@ -273,6 +292,7 @@ ul {
   padding-top: 48px;
   width: 100%;
   position: fixed;
+  overflow-y: scroll;
   .subjectTitles {
     margin-bottom: 20px;
     border-left: 6px solid transparent;
@@ -322,10 +342,22 @@ ul {
   }
   .class_Title {
     li {
-      margin-left: 93px;
-      color: #f0f1f5;
-      margin-top: 10px;
       cursor: pointer;
+      a {
+        padding-left: 93px;
+        color: #f0f1f5;
+        padding-top: 10px;
+        display: block;
+        transition: 0.3;
+        text-decoration: none;
+        &:hover {
+          color: #fb798a;
+          transition: 0.3;
+        }
+        &.active {
+          color: #fb798a;
+        }
+      }
     }
   }
 }
@@ -416,4 +448,43 @@ ul {
   margin-bottom: 20px;
   color: red;
   font-size: 14px;
+}
+.subjectTitles.fontNeue > ul {
+  height: 0px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+.subjectTitles.fontNeue.open > ul {
+  height: auto;
+  overflow: visible;
+}
+.asideFileter .classes li {
+  border-left: 6px solid transparent;
+  ul {
+    height: 0px;
+    overflow: hidden;
+  }
+}
+.asideFileter .classes li.open {
+  ul {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.asideFileter .classes li {
+  &:hover {
+    color: #fb798a;
+    transition: 0.3;
+  }
+}
+
+.clssroomsConainrt {
+  max-width: 1320px;
+  width: 100%;
+  margin: auto;
+  padding: 0 15px;
+  .roomsheader {
+    justify-content: space-between;
+  }
 }

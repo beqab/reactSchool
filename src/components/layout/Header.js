@@ -20,7 +20,7 @@ class Header extends Component {
     return (
       <header className="header d-flex px-4 fixed-top  justify-content-between align-content-center">
         <a href="#" className=" align-self-center">
-          <img src="./images/shcoolLogo.png" alt="" />
+          <img src="/images/shcoolLogo.png" alt="" />
         </a>
         <div className="right_Side d-flex align-self-center text-white">
           {this.props.user.isAuthenticated ? (
@@ -37,7 +37,7 @@ class Header extends Component {
               </div>
               <a onClick={this.logOut} href="#">
                 {" "}
-                <img src="./images/Log_Out.svg" />{" "}
+                <img src="/images/Log_Out.svg" />{" "}
               </a>
             </>
           ) : null}

@@ -11,6 +11,7 @@ import Aside from "./components/layout/Aside";
 import Index from "./components/pages/index";
 import CreateClass from "./components/pages/registerClass/RegisterClass";
 import TeacherProfile from "./components/pages/TeacherProfile";
+import Classrooms from "./components/pages/Classrooms";
 import { connect } from "react-redux";
 import store from "./store";
 
@@ -57,7 +58,9 @@ class App extends Component {
               <>
                 <Route exact path="/createclass" component={CreateClass} />
                 <section class="mainSection">
+                  <Aside />
                   <Route exact path="/teacher" component={TeacherProfile} />
+                  <Route exact path="/classrooms/:id" component={Classrooms} />
                 </section>
               </>
             ) : (
