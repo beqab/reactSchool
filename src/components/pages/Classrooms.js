@@ -34,16 +34,46 @@ export class Classrooms extends Component {
       });
   }
   render() {
-    let name = this.state.classRoom.classRooms
-      ? this.state.classRoom.classRooms.name
+    let name = this.state.classRoom.classRoom
+      ? this.state.classRoom.classRoom.name
       : null;
+    let subj = this.state.classRoom.classRoom
+      ? this.state.classRoom.classRoom.subject_id
+      : null;
+    if (subj == 1) {
+      subj = "მათემატიკა";
+    } else if (subj == 2) {
+      subj = "ინგლისური";
+    } else if (subj == 3) {
+      subj = "ქართული";
+    }
+    let classId = this.state.classRoom.classRoom
+      ? this.state.classRoom.classRoom.id
+      : null;
+    console.log(
+      name,
+      this.state.classRoom.classRoom
+        ? this.state.classRoom.classRoom.name
+        : "nnn",
+      "this.state.classRoom.classRooms"
+    );
     return (
       <div className="teacherProfile ">
         <div className="clssroomsConainrt">
           <div className="roomsheader d-flex">
-            <div className="clssname">{this.props.match.params.id}</div>
-            <div className="subjectName">subname</div>
-            <div>subId</div>
+            <div className="clssname">{name}</div>
+            <div className="subjectName">{subj}</div>
+            <div>{classId}</div>
+          </div>
+          <div className="student_line">
+            <div className="chrtLine">
+              <div>
+                {" "}
+                <img src="" />
+                სახელი გვარო{" "}
+              </div>{" "}
+              <img src="/" />
+            </div>
           </div>
         </div>
       </div>

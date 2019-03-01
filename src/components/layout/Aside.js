@@ -84,8 +84,26 @@ class Aside extends Component {
               >
                 <span class="subTitle">
                   <div>
-                    <img alt="alt" class="mr-1" src="/images/Georgian.svg" />{" "}
-                    ქართულიiii{" "}
+                    <img
+                      alt="alt"
+                      class="mr-1"
+                      src={`/images/${
+                        sub == 1
+                          ? "Math.svg"
+                          : sub == 2
+                          ? "English.svg"
+                          : sub == 3
+                          ? "Georgian.svg"
+                          : null
+                      }`}
+                    />{" "}
+                    {sub == 1
+                      ? "მათემატიკა"
+                      : sub == 2
+                      ? "ინგლისური"
+                      : sub == 3
+                      ? "ქართული"
+                      : null}
                   </div>{" "}
                   <img alt="alt" src="/images/Down_Arror.svg" />
                 </span>
